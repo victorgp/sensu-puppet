@@ -1,0 +1,351 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Definedtype: sensu::handler
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!sensu/handler.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (h)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../sensu.html" title="sensu (hostclass)">sensu</a></span></span>
+     &raquo; 
+    <span class="title">handler</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="puppet_manifest_list_link"
+        href="../puppet_manifest_list.html">
+      Puppet Manifest List
+    </a>
+  
+    <a class="full_list_link" id="puppet_plugin_list_link"
+        href="../puppet_plugin_list.html">
+      Puppet Plugin List
+    </a>
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Definedtype: sensu::handler
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">manifests/handler.pp</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<h1 id="label-Define%3A+sensu%3A%3Ahandler">Define: sensu::handler</h1>
+
+<p>Defines Sensu handlers</p>
+
+<h2 id="label-Parameters">Parameters</h2>
+<dl class="rdoc-list label-list"><dt><strong>ensure</strong>
+<dd>
+<p>String. Whether the check should be present or not Default: present Valid
+values: present, absent</p>
+</dd><dt><strong>type</strong>
+<dd>
+<p>String.  Type of handler Default: pipe Valid values: pipe, tcp, udp, amqp,
+transport, set</p>
+</dd><dt><strong>command</strong>
+<dd>
+<p>String.  Command to run as the handler when type=pipe Default: undef</p>
+</dd><dt><strong>handlers</strong>
+<dd>
+<p>Array of Strings.  Handlers to use when type=set Default: undef</p>
+</dd><dt><strong>severities</strong>
+<dd>
+<p>Array of Strings.  Severities handler is valid for Default: [&#39;ok&#39;,
+&#39;warning&#39;, &#39;critical&#39;, &#39;unknown&#39;] Valid values: ok,
+warning, critical, unknown</p>
+</dd><dt><strong>exchange</strong>
+<dd>
+<p>Hash.  Exchange information used when type=amqp Keys: host, port Default:
+undef</p>
+</dd><dt><strong>pipe</strong>
+<dd>
+<p>Hash.  Pipe information used when type=transport Keys: name, type, options 
+Default: undef</p>
+</dd><dt><strong>socket</strong>
+<dd>
+<p>Hash.  Socket information when type=tcp or type=udp Keys: host, port
+Default: undef</p>
+</dd><dt><strong>filters</strong>
+<dd>
+<p>Hash.  Filter command to apply Default: undef</p>
+</dd><dt><strong>source</strong>
+<dd>
+<p>String.  Source of the puppet handler Default: undef</p>
+</dd><dt><strong>install_path</strong>
+<dd>
+<p>String.  Path to install the handler Default: /etc/sensu/handlers</p>
+</dd><dt><strong>config</strong>
+<dd>
+<p>Hash.  Handler specific config Default: undef</p>
+</dd></dl>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><h2>Parameter Summary<small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+<ul class="summary">
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>ensure</strong>
+          
+            
+            => &#39;present&#39;
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>type</strong>
+          
+            
+            => &#39;pipe&#39;
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>command</strong>
+          
+            
+            => undef
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>handlers</strong>
+          
+            
+            => undef
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>severities</strong>
+          
+            
+            => [&#39;ok&#39;, &#39;warning&#39;, &#39;critical&#39;, &#39;unknown&#39;]
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>exchange</strong>
+          
+            
+            => undef
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>pipe</strong>
+          
+            
+            => undef
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>mutator</strong>
+          
+            
+            => undef
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>socket</strong>
+          
+            
+            => undef
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>filters</strong>
+          
+            
+            => undef
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>source</strong>
+          
+            
+            => undef
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>install_path</strong>
+          
+            
+            => &#39;/etc/sensu/handlers&#39;
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>config</strong>
+          
+            
+            => undef
+          
+        </span>
+        
+      </a>
+    </li>
+  
+</ul>
+</div>
+
+    <div id="footer">
+  Generated on Sat Oct 11 10:18:03 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-2.0.0).
+</div>
+
+  </body>
+</html>

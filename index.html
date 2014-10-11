@@ -1,0 +1,435 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.README.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="puppet_manifest_list_link"
+        href="puppet_manifest_list.html">
+      Puppet Manifest List
+    </a>
+  
+    <a class="full_list_link" id="puppet_plugin_list_link"
+        href="puppet_plugin_list.html">
+      Puppet Plugin List
+    </a>
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h1>Sensu-Puppet</h1>
+
+<p>Tested with Travis CI</p>
+
+<p><a href="https://travis-ci.org/sensu/sensu-puppet"><img src="https://travis-ci.org/sensu/sensu-puppet.png" alt="Build Status"></a></p>
+
+<h2>Upgrade note</h2>
+
+<p>Versions prior to 1.0.0 are incompatible with previous versions of the
+Sensu-Puppet module.</p>
+
+<h2>Installation</h2>
+
+<pre class="code ruby"><code class="ruby">$ puppet module install sensu/sensu
+</code></pre>
+
+<h2>Prerequisites</h2>
+
+<ul>
+<li>Redis server and connectivity to a Redis database</li>
+<li>RabbitMQ server, vhost, and credentials</li>
+<li>Ruby JSON library or gem</li>
+</ul>
+
+<h3>Dependencies</h3>
+
+<ul>
+<li>puppetlabs/apt</li>
+<li>puppetlabs/stdlib</li>
+</ul>
+
+<p>See <code>Modulefile</code> for details.</p>
+
+<p>Pluginsync should be enabled. Also, you will need the Ruby JSON library
+or gem on all your nodes.</p>
+
+<p><a href="http://mirrors.kernel.org/fedora-epel/6/x86_64/rubygem-json-1.4.6-1.el6.x86_64.rpm">EPEL</a></p>
+
+<p>Rubygem:</p>
+
+<pre class="code ruby"><code class="ruby">$ sudo gem install json
+</code></pre>
+
+<p>Debian &amp; Ubuntu:</p>
+
+<pre class="code ruby"><code class="ruby">$ sudo apt-get install ruby-json
+</code></pre>
+
+<h2>Basic example</h2>
+
+<h3>Sensu server</h3>
+
+<pre class="code ruby"><code class="ruby">node &#39;sensu-server.foo.com&#39; {
+  class { &#39;sensu&#39;:
+    rabbitmq_password =&gt; &#39;secret&#39;,
+    server            =&gt; true,
+    api               =&gt; true,
+    plugins           =&gt; [
+      &#39;puppet:///data/sensu/plugins/ntp.rb&#39;,
+      &#39;puppet:///data/sensu/plugins/postfix.rb&#39;
+    ]
+  }
+
+  sensu::handler { &#39;default&#39;:
+    command =&gt; &#39;mail -s \&#39;sensu alert\&#39; ops@foo.com&#39;,
+  }
+
+  sensu::check { &#39;check_ntp&#39;:
+    command     =&gt; &#39;PATH=$PATH:/usr/lib/nagios/plugins check_ntp_time -H pool.ntp.org -w 30 -c 60&#39;,
+    handlers    =&gt; &#39;default&#39;,
+    subscribers =&gt; &#39;sensu-test&#39;
+  }
+
+  sensu::check { &#39;...&#39;:
+    ...
+  }
+}
+</code></pre>
+
+<h3>Sensu client</h3>
+
+<pre class="code ruby"><code class="ruby">node &#39;sensu-client.foo.com&#39; {
+   class { &#39;sensu&#39;:
+     rabbitmq_password  =&gt; &#39;secret&#39;,
+     rabbitmq_host      =&gt; &#39;sensu-server.foo.com&#39;,
+     subscriptions      =&gt; &#39;sensu-test&#39;,
+   }
+}
+</code></pre>
+
+<h2>Advanced example using Hiera</h2>
+
+<p>This example includes the <code>sensu</code> class as part of a base class or role
+and configures Sensu on each individual node via
+<a href="http://docs.puppetlabs.com/#hierahiera1">Hiera</a>.</p>
+
+<h3>hiera.yaml</h3>
+
+<pre class="code ruby"><code class="ruby">---
+:hierarchy:
+  - %{fqdn}
+  - %{datacenter}
+  - common
+:backends:
+  - yaml
+:yaml:
+  :datadir: &#39;/etc/puppet/%{environment}/modules/hieradata&#39;
+</code></pre>
+
+<h3>common.yaml</h3>
+
+<pre class="code ruby"><code class="ruby">sensu::install_repo: false
+sensu::purge_config: true
+sensu::rabbitmq_host: 10.31.0.90
+sensu::rabbitmq_password: password
+sensu::rabbitmq_port: 5672
+</code></pre>
+
+<h3>sensu-server.foo.com.yaml</h3>
+
+<pre class="code ruby"><code class="ruby">sensu::server: true
+</code></pre>
+
+<p>nosensu.foo.com.yaml</p>
+
+<pre class="code ruby"><code class="ruby">sensu::client: false
+</code></pre>
+
+<p>site.pp</p>
+
+<pre class="code ruby"><code class="ruby">node default {
+  class { &#39;sensu&#39;: }
+  ...
+}
+</code></pre>
+
+<h2>Safe Mode checks</h2>
+
+<p>By default Sensu clients will execute whatever check messages are on the
+queue. This is potentially a large security hole.</p>
+
+<p>If you enable the <code>safe_mode</code> parameter, it will require that checks are
+defined on the client. If standalone checks are used then defining on
+the client is sufficient, otherwise checks will also need to be defined
+on the server as well.</p>
+
+<p>A usage example is shown below.</p>
+
+<h3>Sensu server</h3>
+
+<p>Each component of Sensu can be controlled separately. The server components
+are managed with the server, and API parameters.</p>
+
+<pre class="code ruby"><code class="ruby">node &#39;sensu-server.foo.com&#39; {
+  class { &#39;sensu&#39;:
+    rabbitmq_password =&gt; &#39;secret&#39;,
+    server            =&gt; true,
+    api               =&gt; true,
+    plugins           =&gt; [
+      &#39;puppet:///data/sensu/plugins/ntp.rb&#39;,
+      &#39;puppet:///data/sensu/plugins/postfix.rb&#39;
+    ],
+    safe_mode         =&gt; true,
+  }
+
+  ...
+
+  sensu::check { &quot;diskspace&quot;:
+    command =&gt; &#39;/etc/sensu/plugins/system/check-disk.rb&#39;,
+  }
+
+
+}
+</code></pre>
+
+<h3>Sensu client</h3>
+
+<pre class="code ruby"><code class="ruby">node &#39;sensu-client.foo.com&#39; {
+   class { &#39;sensu&#39;:
+     rabbitmq_password  =&gt; &#39;secret&#39;,
+     rabbitmq_host      =&gt; &#39;sensu-server.foo.com&#39;,
+     subscriptions      =&gt; &#39;sensu-test&#39;,
+     safe_mode          =&gt; true,
+   }
+
+  sensu::check { &quot;diskspace&quot;:
+    command =&gt; &#39;/etc/sensu/plugins/system/check-disk.rb&#39;,
+  }
+}
+</code></pre>
+
+<h2>Using custom variables in check definitions</h2>
+
+<pre class="code ruby"><code class="ruby">sensu::check{ &#39;check_file_test&#39;:
+  command      =&gt; &#39;/usr/local/bin/check_file_test.sh&#39;,
+  handlers     =&gt; &#39;notifu&#39;,
+  custom       =&gt; {
+    &#39;foo&#39;      =&gt; &#39;bar&#39;,
+    &#39;numval&#39;   =&gt; 6,
+    &#39;boolval&#39;  =&gt; true,
+    &#39;in_array&#39; =&gt; [&#39;foo&#39;,&#39;baz&#39;]
+  },
+  subscribers  =&gt; &#39;sensu-test&#39;
+}
+</code></pre>
+
+<p>This will create the following check definition for Sensu:</p>
+
+<pre class="code ruby"><code class="ruby">{
+  &quot;checks&quot;: {
+    &quot;check_file_test&quot;: {
+      &quot;handlers&quot;: [
+        &quot;notifu&quot;
+      ],
+      &quot;in_array&quot;: [
+        &quot;foo&quot;,
+        &quot;baz&quot;
+      ],
+      &quot;command&quot;: &quot;/usr/local/bin/check_file_test.sh&quot;,
+      &quot;subscribers&quot;: [
+        &quot;sensu-test&quot;
+      ],
+      &quot;foo&quot;: &quot;bar&quot;,
+      &quot;interval&quot;: 60,
+      &quot;numval&quot;: 6,
+      &quot;boolval&quot;: true
+    }
+  }
+}
+</code></pre>
+
+<h2>Handler configuration</h2>
+
+<pre class="code ruby"><code class="ruby">sensu::handler {
+  &#39;handler_foobar&#39;:
+    command =&gt; &#39;/etc/sensu/handlers/foobar.py&#39;,
+    type    =&gt; &#39;pipe&#39;,
+    config  =&gt; {
+      &#39;foobar_setting&#39; =&gt; &#39;value&#39;,
+  }
+}
+</code></pre>
+
+<p>This will create the following handler definition for Sensu (server):</p>
+
+<pre class="code ruby"><code class="ruby"> {
+   &quot;handler_foobar&quot;: {
+     &quot;foobar_setting&quot;: &quot;value&quot;
+   },
+   &quot;handlers&quot;: {
+      &quot;handler_foobar&quot;: {
+        &quot;command&quot;: &quot;/etc/sensu/plugins/foobar.py&quot;,
+        &quot;severities&quot;: [
+          &quot;ok&quot;,
+          &quot;warning&quot;,
+          &quot;critical&quot;,
+          &quot;unknown&quot;
+        ],
+      &quot;type&quot;: &quot;pipe&quot;
+      }
+   }
+ }
+</code></pre>
+
+<h3>Disable Service Management</h3>
+
+<p>If you&#39;d prefer to use an external service management tool such as
+DaemonTools or SupervisorD, you can disable the module&#39;s internal
+service management functions like so:</p>
+
+<pre class="code ruby"><code class="ruby">sensu::manage_services: false
+</code></pre>
+
+<h2>Including Sensu monitoring in other modules</h2>
+
+<p>There are a few different patterns that can be used to include Sensu
+monitoring into other modules. One pattern creates a new class that is
+included as part of the host or node definition and includes a
+standalone check, for example:</p>
+
+<p>apache/manifests/monitoring/sensu.pp</p>
+
+<pre class="code ruby"><code class="ruby">class apache::monitoring::sensu {
+  sensu::check { &#39;apache-running&#39;:
+    handlers    =&gt; &#39;default&#39;,
+    command     =&gt; &#39;/etc/sensu/plugins/check-procs.rb -p /usr/sbin/httpd -w 100 -c 200 -C 1&#39;,
+    custom      =&gt; {
+      refresh     =&gt; 1800,
+      occurrences =&gt; 2,
+    },
+  }
+}
+</code></pre>
+
+<p>You could also include subscription information and let the Sensu server
+schedule checks for this service as a subscriber:</p>
+
+<p>apache/manifests/monitoring/sensu.pp</p>
+
+<pre class="code ruby"><code class="ruby">class apache::monitoring::sensu {
+  sensu::subscription { &#39;apache&#39;: }
+}
+</code></pre>
+
+<p>You can also define custom variables as part of the subscription:</p>
+
+<p>ntp/manifests/monitoring/ntp.pp</p>
+
+<pre class="code ruby"><code class="ruby">class ntp::monitoring::sensu {
+  sensu::subscription { &#39;ntp&#39;:
+    custom =&gt; {
+      ntp {
+        server =&gt; $ntp::servers[0],
+      },
+    },
+  }
+}
+</code></pre>
+
+<p>And then use that variable on your Sensu server:</p>
+
+<pre class="code ruby"><code class="ruby">sensu::check { &#39;check_ntp&#39;:
+  command     =&gt; &#39;PATH=$PATH:/usr/lib/nagios/plugins check_ntp_time -H :::ntp.server::: -w 30 -c 60&#39;,
+  ...
+}
+</code></pre>
+
+<p>If you would like to automatically include the Sensu monitoring class as
+part of your existing module with the ability to support different
+monitoring platforms, you could do something like:</p>
+
+<p>apache/manifests/service.pp</p>
+
+<pre class="code ruby"><code class="ruby">$monitoring = hiera(&#39;monitoring&#39;, &#39;&#39;)
+
+case $monitoring {
+  &#39;sensu&#39;:  { include apache::monitoring::sensu }
+  &#39;nagios&#39;: { include apache::monitoring::nagios }
+}
+</code></pre>
+
+<h2>Dashboards</h2>
+
+<p>The following puppet modules exist for managing dashboards</p>
+
+<ul>
+<li><a href="https://github.com/pauloconnor/pauloconnor-uchiwa">uchiwa</a></li>
+</ul>
+
+<h2>License</h2>
+
+<p>See LICENSE file.</p>
+</div></div>
+
+    <div id="footer">
+  Generated on Sat Oct 11 10:18:03 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-2.0.0).
+</div>
+
+  </body>
+</html>

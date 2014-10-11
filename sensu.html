@@ -1,0 +1,833 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Hostclass: sensu
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!sensu.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (s)</a> &raquo;
+    
+    
+    <span class="title">sensu</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="puppet_manifest_list_link"
+        href="puppet_manifest_list.html">
+      Puppet Manifest List
+    </a>
+  
+    <a class="full_list_link" id="puppet_plugin_list_link"
+        href="puppet_plugin_list.html">
+      Puppet Plugin List
+    </a>
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Hostclass: sensu
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">manifests/init.pp</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <dl class="rdoc-list label-list"><dt><strong>repo_key_id</strong>
+<dd>
+<p>String.  The apt GPG key id Default: 7580C77F</p>
+</dd><dt><strong>repo_key_source</strong>
+<dd>
+<p>String.  URL of the apt GPG key Default: <a
+href="http://repos.sensuapp.org/apt/pubkey.gpg">repos.sensuapp.org/apt/pubkey.gpg</a></p>
+</dd><dt><strong>client</strong>
+<dd>
+<p>Boolean.  Include the sensu client Default: true Valid values: true, false</p>
+</dd><dt><strong>server</strong>
+<dd>
+<p>Boolean.  Include the sensu server Default: false Valid values: true, false</p>
+</dd><dt><strong>api</strong>
+<dd>
+<p>Boolean.  Include the sensu api service Default: false Valid values: true,
+false</p>
+</dd><dt><strong>manage_services</strong>
+<dd>
+<p>Boolean.  Manage the sensu services with puppet Default: true Valid values:
+true, false</p>
+</dd><dt><strong>manage_user</strong>
+<dd>
+<p>Boolean.  Manage the sensu user with puppet Default: true Valid values:
+true, false</p>
+</dd><dt><strong>manage_plugins_dir</strong>
+<dd>
+<p>Boolean. Manage the sensu plusing directory Default: true Valid values:
+true, false</p>
+</dd><dt><strong>rabbitmq_port</strong>
+<dd>
+<p>Integer.  Rabbitmq port to be used by sensu Default: 5672</p>
+</dd><dt><strong>rabbitmq_host</strong>
+<dd>
+<p>String.  Host running rabbitmq for sensu Default: &#39;localhost&#39;</p>
+</dd><dt><strong>rabbitmq_user</strong>
+<dd>
+<p>String.  Username to connect to rabbitmq with for sensu Default:
+&#39;sensu&#39;</p>
+</dd><dt><strong>rabbitmq_password</strong>
+<dd>
+<p>String.  Password to connect to rabbitmq with for sensu Default: &#39;&#39;</p>
+</dd><dt><strong>rabbitmq_vhost</strong>
+<dd>
+<p>String.  Rabbitmq vhost to be used by sensu Default: &#39;sensu&#39;</p>
+</dd><dt><strong>rabbitmq_ssl</strong>
+<dd>
+<p>Boolean.  Use SSL transport to connect to RabbitMQ.  If
+rabbitmq_ssl_private_key and/or</p>
+
+<pre class="ruby"><span class="ruby-identifier">rabbitmq_ssl_cert_chain</span> <span class="ruby-identifier">are</span> <span class="ruby-identifier">set</span>, <span class="ruby-keyword">then</span> <span class="ruby-identifier">this</span> <span class="ruby-identifier">is</span> <span class="ruby-identifier">enabled</span> <span class="ruby-identifier">automatically</span>.  <span class="ruby-constant">Set</span> <span class="ruby-identifier">rabbitmq_ssl</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>
+<span class="ruby-identifier">without</span> <span class="ruby-identifier">specifying</span> <span class="ruby-identifier">a</span> <span class="ruby-identifier">private</span> <span class="ruby-identifier">key</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">cert</span> <span class="ruby-identifier">chain</span> <span class="ruby-identifier">to</span> <span class="ruby-identifier">use</span> <span class="ruby-constant">SSL</span> <span class="ruby-identifier">transport</span>, <span class="ruby-identifier">but</span> <span class="ruby-keyword">not</span> <span class="ruby-identifier">cert</span> <span class="ruby-identifier">auth</span>.
+</pre>
+
+<p>Defaul: false</p>
+</dd><dt><strong>rabbitmq_ssl_private_key</strong>
+<dd>
+<p>String.  Private key to be used by sensu to connect to rabbitmq</p>
+
+<pre class="code ruby"><code class="ruby">If the value starts with &#39;puppet://&#39; the file will be copied and used.  Absolute paths will just be used</code></pre>
+
+<p>Default: undef</p>
+</dd><dt><strong>rabbitmq_ssl_cert_chain</strong>
+<dd>
+<p>String.  Private SSL cert chain to be used by sensu to connect to rabbitmq</p>
+
+<pre class="code ruby"><code class="ruby">If the value starts with &#39;puppet://&#39; the file will be copied and used.  Absolute paths will just be used</code></pre>
+
+<p>Default: undef</p>
+</dd><dt><strong>redis_host</strong>
+<dd>
+<p>String.  Hostname of redis to be used by sensu Default: localhost</p>
+</dd><dt><strong>redis_port</strong>
+<dd>
+<p>Integer.  Redis port to be used by sensu Default: 6379</p>
+</dd><dt><strong>api_bind</strong>
+<dd>
+<p>String.  IP to bind api service Default: 0.0.0.0</p>
+</dd><dt><strong>api_host</strong>
+<dd>
+<p>String.  Hostname of the sensu api service Default: localhost</p>
+</dd><dt><strong>api_port</strong>
+<dd>
+<p>Integer. Port of the sensu api service Default: 4567</p>
+</dd><dt><strong>api_user</strong>
+<dd>
+<p>String.  Password of the sensu api service Default: undef</p>
+</dd><dt><strong>api_password</strong>
+<dd>
+<p>Integer. Password of the sensu api service Default: undef</p>
+</dd><dt><strong>subscriptions</strong>
+<dd>
+<p>Array of strings.  Default suscriptions used by the client Default: []</p>
+</dd><dt><strong>client_address</strong>
+<dd>
+<p>String.  Address of the client to report with checks Default: $::ipaddress</p>
+</dd><dt><strong>client_name</strong>
+<dd>
+<p>String.  Name of the client to report with checks Default: $::fqdn</p>
+</dd><dt><strong>client_custom</strong>
+<dd>
+<p>Hash.  Custom client variables Default: {}</p>
+</dd><dt><strong>safe_mode</strong>
+<dd>
+<p>Boolean.  Force safe mode for checks Default: false Valid values: true,
+false</p>
+</dd><dt><strong>plugins</strong>
+<dd>
+<p>String, Array of Strings.  Plugins to install on the node Default: []</p>
+</dd><dt><strong>plugins_dir</strong>
+<dd>
+<p>String. Puppet url to plugins directory Default: undef</p>
+</dd><dt><strong>purge_config</strong>
+<dd>
+<p>Boolean.  If unused configs should be removed from the system Default:
+false Valid values: true, false</p>
+</dd><dt><strong>use_embedded_ruby</strong>
+<dd>
+<p>Boolean.  If the embedded ruby should be used Default: false Valid values:
+true, false</p>
+</dd><dt><strong>rubyopt</strong>
+<dd>
+<p>String.  Ruby opts to be passed to the sensu services Default: &#39;&#39;</p>
+</dd><dt><strong>gem_path</strong>
+<dd>
+<p>String.  Paths to add to GEM_PATH if we need to look for different dirs.
+Default: &#39;&#39;</p>
+</dd><dt><strong>log_level</strong>
+<dd>
+<p>String.  Sensu log level to be used Default: &#39;info&#39; Valid values:
+debug, info, warn, error, fatal</p>
+</dd></dl>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><h2>Parameter Summary<small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+<ul class="summary">
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>version</strong>
+          
+            
+            => &#39;latest&#39;
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>sensu_plugin_version</strong>
+          
+            
+            => &#39;absent&#39;
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>install_repo</strong>
+          
+            
+            => true
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>repo</strong>
+          
+            
+            => &#39;main&#39;
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>repo_source</strong>
+          
+            
+            => undef
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>repo_key_id</strong>
+          
+            
+            => &#39;7580C77F&#39;
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>repo_key_source</strong>
+          
+            
+            => &#39;http://repos.sensuapp.org/apt/pubkey.gpg&#39;
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>client</strong>
+          
+            
+            => true
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>server</strong>
+          
+            
+            => false
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>api</strong>
+          
+            
+            => false
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>manage_services</strong>
+          
+            
+            => true
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>manage_user</strong>
+          
+            
+            => true
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>manage_plugins_dir</strong>
+          
+            
+            => true
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>rabbitmq_port</strong>
+          
+            
+            => 5672
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>rabbitmq_host</strong>
+          
+            
+            => &#39;localhost&#39;
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>rabbitmq_user</strong>
+          
+            
+            => &#39;sensu&#39;
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>rabbitmq_password</strong>
+          
+            
+            => &#39;&#39;
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>rabbitmq_vhost</strong>
+          
+            
+            => &#39;sensu&#39;
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>rabbitmq_ssl</strong>
+          
+            
+            => false
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>rabbitmq_ssl_private_key</strong>
+          
+            
+            => undef
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>rabbitmq_ssl_cert_chain</strong>
+          
+            
+            => undef
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>redis_host</strong>
+          
+            
+            => &#39;localhost&#39;
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>redis_port</strong>
+          
+            
+            => 6379
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>api_bind</strong>
+          
+            
+            => &#39;0.0.0.0&#39;
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>api_host</strong>
+          
+            
+            => &#39;localhost&#39;
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>api_port</strong>
+          
+            
+            => 4567
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>api_user</strong>
+          
+            
+            => undef
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>api_password</strong>
+          
+            
+            => undef
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>subscriptions</strong>
+          
+            
+            => [
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>client_bind</strong>
+          
+            
+            => &#39;127.0.0.1&#39;
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>client_address</strong>
+          
+            
+            => $::ipaddress
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>client_name</strong>
+          
+            
+            => $::fqdn
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>client_custom</strong>
+          
+            
+            => {
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>safe_mode</strong>
+          
+            
+            => false
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>plugins</strong>
+          
+            
+            => [
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>plugins_dir</strong>
+          
+            
+            => undef
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>purge_config</strong>
+          
+            
+            => false
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>use_embedded_ruby</strong>
+          
+            
+            => false
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>rubyopt</strong>
+          
+            
+            => &#39;&#39;
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>gem_path</strong>
+          
+            
+            => &#39;&#39;
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>log_level</strong>
+          
+            
+            => &#39;info&#39;
+          
+        </span>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="#">
+        <span class="summary_signature">
+          -
+          <strong>dashboard</strong>
+          
+            
+            => false
+          
+        </span>
+        
+      </a>
+    </li>
+  
+</ul>
+</div>
+
+    <div id="footer">
+  Generated on Sat Oct 11 10:18:03 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-2.0.0).
+</div>
+
+  </body>
+</html>
